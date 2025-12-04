@@ -29,7 +29,7 @@ public class ParameterRepository
         var entities = await _context.Parameters.AsNoTracking().ToListAsync();
         
         return entities.Select(e => new CanParameter(
-            e.Id, e.Name, e.ServiceId, e.ParameterId, e.BytesReturned, e.Formula, e.Unit, e.Description
+            e.Id, e.Name,e.Vid, e.ServiceId, e.ParameterId, e.BytesReturned, e.Formula, e.Unit, e.Description
         )).ToList();
     }
 
@@ -59,6 +59,7 @@ public class ParameterRepository
         return entities.Select(e => new CanParameter(
             e.Id, 
             e.Name, 
+            e.Vid,
             e.ServiceId, 
             e.ParameterId, 
             e.BytesReturned, 
@@ -117,7 +118,7 @@ public class ParameterRepository
         if (e == null) return null;
 
         return new CanParameter(
-            e.Id, e.Name, e.ServiceId, e.ParameterId, e.BytesReturned, e.Formula, e.Unit, e.Description
+            e.Id, e.Name, e.Vid,e.ServiceId, e.ParameterId, e.BytesReturned, e.Formula, e.Unit, e.Description
         );
     }
 }

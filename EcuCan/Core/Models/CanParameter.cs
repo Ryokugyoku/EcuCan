@@ -8,6 +8,7 @@ namespace EcuCan.Core.Models;
 public record CanParameter(
     string Id,           // ユニークID (例: "01-0C" または "EngineSpeed")
     string Name,         // 表示名 (例: "エンジン回転数", "Unknown PID 0C")
+    string Vin,
     byte ServiceId,      // SID (Service ID / Mode)
     byte ParameterId,    // PID (Parameter ID)
     int BytesReturned,   // 想定されるデータバイト数 (例: 2バイト)
@@ -19,7 +20,7 @@ public record CanParameter(
     /// <summary>
     /// 生データ(byte配列)を計算式に基づいて物理値(double)に変換します
     /// </summary>
-    public double Calculate(byte[] data)
+    public double Calculate(byte[]? data)
     {
         // データが空の場合は0を返す
         if (data == null || data.Length == 0) return 0.0;

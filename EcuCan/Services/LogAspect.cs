@@ -4,7 +4,7 @@ using System.Diagnostics;
 namespace EcuCan.Services;
 
 [Aspect(Scope.Global)]
-internal class LogAspect
+public class LogAspect
 {
     // ログファイルの保存場所（実行ファイルと同じフォルダに作成されます）
     private static readonly string LogFilePath = @"method_execution_log.csv";

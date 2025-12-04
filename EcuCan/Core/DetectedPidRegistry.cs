@@ -1,5 +1,4 @@
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using EcuCan.Core.Models;
 
 namespace EcuCan.Core;
@@ -18,7 +17,8 @@ public class DetectedPidRegistry
     /// <param name="sid">Service ID</param>
     /// <param name="pid">Parameter ID</param>
     /// <param name="dataLength">データ長</param>
-    public void Register(byte sid, byte pid, int dataLength)
+    /// <param name="vid">VIN</param>
+    public void Register(byte sid, byte pid, int dataLength,string vid)
     {
         string key = GenerateKey(sid, pid);
 
@@ -29,6 +29,7 @@ public class DetectedPidRegistry
         var param = new CanParameter(
             Id: key,
             Name: $"Unknown PID {pid:X2} (SID:{sid:X2})", // とりあえず仮名
+            Vin:vid,
             ServiceId: sid,
             ParameterId: pid,
             BytesReturned: dataLength,

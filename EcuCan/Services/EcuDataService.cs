@@ -15,7 +15,7 @@ public class EcuDataService
     private readonly IHardwareConnection _connection;
     private readonly ParameterRepository _repository; // 追加: DB操作用
 
-    private List<CanParameter> pidsList;
+    private List<CanParameter> _pidsList;
     string VehicleIdentificationNumber { get; set; } = "UNKNOWN";
 
     // コンストラクタ注入で Repository を受け取る
@@ -23,6 +23,7 @@ public class EcuDataService
     {
         _connection = connection;
         _repository = repository;
+        _pidsList = _repository.GetAllAsync().Result;
     }
 
     public async Task InitializeAsync(CancellationToken ct = default)
@@ -38,9 +39,9 @@ public class EcuDataService
                 // 簡易解析 (本来はISO-TP)
                 // とりあえず応答があればVINとして扱う
                 VehicleIdentificationNumber = BitConverter.ToString(vinResponse.Data);
-                pidsList = await _repository.GetVinParametersAsync(VehicleIdentificationNumber);
+                _pidsList = await _repository.GetVinParametersAsync(VehicleIdentificationNumber);
 
-                if (pidsList.Count > 0)
+                if (_pidsList.Count > 0)
                 {
                     return;
                 }
@@ -59,7 +60,7 @@ public class EcuDataService
                 
                 // ★ここでDBに登録する
                 await RegisterPidsToDatabaseAsync(VehicleIdentificationNumber, pids);
-                pidsList = await _repository.GetVinParametersAsync(VehicleIdentificationNumber);
+                _pidsList = await _repository.GetVinParametersAsync(VehicleIdentificationNumber);
             }
 
             Console.WriteLine("EcuDataService Initialized.");
@@ -90,6 +91,7 @@ public class EcuDataService
             var param = new CanParameter(
                 Id: key,
                 Name: $"Unknown PID {pid:X2}", // 初期名
+                Vin:vin,
                 ServiceId: 0x01,
                 ParameterId: pid,
                 BytesReturned: 1, // 仮 (実際はPIDごとに異なる)
