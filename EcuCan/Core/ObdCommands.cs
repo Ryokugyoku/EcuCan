@@ -23,4 +23,14 @@ public class ObdCommands
         new byte[] { 0x02, 0x01, 0x00, 0x55, 0x55, 0x55, 0x55, 0x55 }, // 0x55はパディング(埋め)
         DateTime.Now
     );
+    
+    /// <summary>
+    /// 車台番号(VIN)をリクエストするためのHEXコマンド (Mode 09, PID 02)
+    /// Data: [Length=02, Mode=09, PID=02, Padding...]
+    /// </summary>
+    public static readonly CanFrame RequestVin = new CanFrame(
+        RequestId,
+        new byte[] { 0x02, 0x09, 0x02, 0x55, 0x55, 0x55, 0x55, 0x55 }, 
+        DateTime.Now
+    );
 }

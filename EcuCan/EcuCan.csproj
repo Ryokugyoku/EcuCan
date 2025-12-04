@@ -7,12 +7,17 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Data\" />
+      <PackageReference Include="AspectInjector" Version="2.9.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.0" />
+      <PackageReference Include="System.IO.Ports" Version="10.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="AspectInjector" Version="2.9.0" />
-      <PackageReference Include="System.IO.Ports" Version="10.0.0" />
+      <Folder Include="Data\InfluxDb\" />
     </ItemGroup>
 
 </Project>
